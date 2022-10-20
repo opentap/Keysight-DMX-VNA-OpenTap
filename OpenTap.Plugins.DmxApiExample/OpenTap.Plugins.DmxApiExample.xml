@@ -1,0 +1,351 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenTap.Plugins.DmxApiExample</name>
+    </assembly>
+    <members>
+        <member name="T:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep">
+            <summary>
+            When run, this test step will force the building of all the channel included in the loaded configuration <seealso cref="T:OpenTap.Plugins.DmxApiExample.LoadConfigurationStep"/>
+            This step must be placed in the test plan after a <seealso cref="T:OpenTap.Plugins.DmxApiExample.ConnectionStep"/> and the LoadConfigurationStep.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep.AppendToState">
+            <summary>
+            This setting when checked will force all the new channels and measurements in the selected configuration to be placed into a new Sheet on the
+            VNA display without disturbing any existing measurements that may be present in the current instrument state.  The channel numbers in the loaded
+            DMX configuration will automatically be adjusted to accomodate the existing channels in the instrument.  If not checked, then a factory preset will
+            be performed on the VNA before the DMX configuration is applied to the instrument.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep.SweepAfterSetup">
+            <summary>
+            This setting when checked, will force a final sweep of all the channels in the configuration after all the channels and measurements have been fully configured
+            on the VNA.  The final sweep will also update any analysis that is turned on for the measurements in the configuration.  Unless the DUT is connected to the
+            VNA when the Build All Channels step is executed, the final sweep is not needed and would add unnecessary delay to the execution of the sequence.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep.DoFastSetup">
+            <summary>
+            This setting when checked, will disable the VNA display updates and blank the existing windows on the VNA while the build configuration process is taking place.
+            Remote commands to the VNA are processed slightly faster when the display is disabled.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep.ReorderChannels">
+            <summary>
+            DMX configuration files retain the original channel and window numbers that were used when the configuration was originally created.  The original numbering of the
+            channels and windows may not be suitable when that same configuration is used in a production automated test environment.  This setting when checked, will force a
+            reordering of all the channel numbers in the loaded configuration (Note: the reordering happens in memory only and will not impact the configuration file) based
+            on a <seealso cref="P:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep.NewStartingChannel"/> value.  If the NewStartingChannel number is left at 0, then the new starting channel will be the next available channel
+            number in the current VNA state.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep.NewStartingChannel">
+            <summary>
+            This setting is used when the <seealso cref="P:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep.ReorderChannels"/> setting is checked.  The Channel/Window reordering process will use the value of this setting as the
+            new starting channel number for the loaded configuration.  If the <seealso cref="P:OpenTap.Plugins.DmxApiExample.BuildAllChannelsStep.AppendToState"/> is also checked, the New Starting Channel will automatically
+            increment if a channel with that number already exists in the current VNA state.
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.BuildChannelStep">
+            <summary>
+            When run, this test step will build the selected channel from the loaded configuration <see cref="T:OpenTap.Plugins.DmxApiExample.LoadConfigurationStep"/>
+            This step must be placed in the test plan after a <see cref="T:OpenTap.Plugins.DmxApiExample.ConnectionStep"/> and the LoadConfigurationStep.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildChannelStep.DisplayChannelSelectionDialog">
+            <summary>
+            If this setting is checked, when this step is executed in the sequence, a dialog will appear with a list of current channels in the configurations,
+            from which the user can select a channel.  When this setting is checked, the <see cref="P:OpenTap.Plugins.DmxApiExample.BuildChannelStep.ChannelId"/> setting is disabled.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildChannelStep.ChannelId">
+            <summary>
+            The channel number for the channel in the loaded configuration to be built in the VNA,  The channel number must be for a channel that exists in
+            the loaded configuration, otherwise an exception will be thrown during the step execution.  
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildChannelStep.SweepAfterSetup">
+            <summary>
+            This setting when checked, will force a final sweep of all the channel after it has been fully configured on the VNA.
+            The final sweep will also update any analysis that is turned on for the measurements in the configuration.  Unless the DUT is connected to the
+            VNA when the Build All Channels step is executed, the final sweep is not needed and would add unnecessary delay to the execution of the sequence.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.BuildChannelStep.DoFastSetup">
+            <summary>
+            This setting when checked, will disable the VNA display updates and blank the existing windows on the VNA while the build configuration process is taking place.
+            Remote commands to the VNA are processed slightly faster when the display is disabled.
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.ChangeMeasurementSetting">
+            <summary>
+            This test step allows the user to modify a channel setting (ex. "Carrier Frequency") in measurement that has already been built.
+            this step can be used in a loop to modify a supported measurement setting for a given measurement without having to rebuild the
+            entire channel.  A call to this step must be followed by a call to <see cref="T:OpenTap.Plugins.DmxApiExample.SweepChannelStep"/>.
+            multiple calls to this step to change different measurement settings can be grouped together before a single call to <see cref="T:OpenTap.Plugins.DmxApiExample.SweepChannelStep"/>
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:OpenTap.Plugins.DmxApiExample.ChangeMeasurementSetting.DisplayChannelSelectionDialog" -->
+        <member name="P:OpenTap.Plugins.DmxApiExample.ChangeMeasurementSetting.ChannelId">
+            <summary>
+            The channel number for the channel in the loaded configuration to be built in the VNA,  The channel number must be for a channel that exists in
+            the loaded configuration, otherwise an exception will be thrown during the step execution.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.ChangeMeasurementSetting.DisplaySettingSelectionDialog">
+            <summary>
+            If this setting is checked, when this step is executed in the sequence, a dialog will appear with a list of available parameters in the selected channel.
+            When this setting is checked, the <see cref="!:Parameter"/> setting is disabled.
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.ConnectionStep">
+            <summary>
+            This test step is required as the first step in any test plan using the DmxApiExample TAP plugin.  When run, this
+            step establishes an IO connection between the client PC (running the TAP sequence) and the VNA.  It requires that
+            the user has already added a valid VNA instrument to the TAP bench settings.  All steps following the connection step
+            will use the selected VNA.  A new connection step can be called in the same sequence to redirect subsequent step to a
+            different VNA.  However, steps targeting different VNAs cannot be interspersed and have to be organized in sequential
+            blocks preceded each with a connection step. 
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.ConnectionStep.Vna">
+            <summary>
+            The name of a VNA instrument from the test bench settings.  The VNA must be a model supported by the currently
+            installed DMX application <seealso cref="!:https://edadocs.software.keysight.com/kkbopen/what-vna-models-work-with-dmx-589310727.html"/>.
+            In addition the VNA must be running the minimum firmware version required by the currently installed DMX application.
+            As of version A.3.0.1.58 of the DMX application, the minimum VNA firmware version is A.15.75.19
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.ConnectionStep.TimeOut">
+            <summary>
+            An instrument IO timeout in milliseconds.  
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.DmxPluginSettings">
+            <summary>
+            This class holds various global DMX plugin settings that need to be shared among
+            different steps.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.DmxPluginSettings.DataDirectory">
+            <summary>
+            The path to the directory to hold saved data file.  This setting is initialized in the
+            <see cref="T:OpenTap.Plugins.DmxApiExample.SetupDataSaveOptions"/> step.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.DmxPluginSettings.DataFileType">
+            <summary>
+            the current selection for the data file type (csv, mdif, citi).  This setting is initialized in the
+            <see cref="T:OpenTap.Plugins.DmxApiExample.SetupDataSaveOptions"/> step.
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.ExtensionMethods">
+            <summary>
+            This class holds a number of utility methods used by various other classes in the plugin.
+            </summary>
+        </member>
+        <member name="M:OpenTap.Plugins.DmxApiExample.ExtensionMethods.LogMag(System.Numerics.Complex)">
+            <summary>
+            Converts a complex voltage value to Log Magnitude.
+            </summary>
+            <param name="cNum">A System.Numeric.Complex number representing a vector voltage value</param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenTap.Plugins.DmxApiExample.ExtensionMethods.DegPhase(System.Numerics.Complex)">
+            <summary>
+            Converts a complex voltage value to phase in degrees.
+            </summary>
+            <param name="cNum">A System.Numeric.Complex number representing a vector voltage value</param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenTap.Plugins.DmxApiExample.ExtensionMethods.ShowChannelSelector(Keysight.Dmx.Service.DmxApi)">
+            <summary>
+            Displays the channel selection dialog and returns the number of the selected channel
+            </summary>
+            <param name="api">A DmxApi object representing the current instance of the API</param>
+            <returns>Selected channel number</returns>
+        </member>
+        <member name="M:OpenTap.Plugins.DmxApiExample.ExtensionMethods.ShowParameterSelector(System.Int32)">
+            <summary>
+            Displays the parameter selection dialog.
+            </summary>
+            <param name="channelId">the channel number to list parameters from.</param>
+            <returns>the name of the selected parameter and format.</returns>
+        </member>
+        <member name="M:OpenTap.Plugins.DmxApiExample.ExtensionMethods.LoadDmxLibraryFromDmxInstallDir(System.String)">
+            <summary>
+            Loads an assembly from the location described in the system environment variable 'DmxInstallDir' using Assembly.LoadFile() method. This method uses the assembly name to determine the DLL file to attempt to load.
+            </summary>
+            <param name="assemblyFullName">Assembly name to attempt to load</param>
+            <returns>Assembly loaded from the 'DmxInstallDir' if found, null otherwise.</returns>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.GetFFTDataBuffer">
+            <summary>
+            This is a special data acquisition step designed to get the full FFT spectrum data for selected parameters in a Modulation Distortion
+            measurement channel.  The values for each execution of the step will be published to a table that contains the frequency, Log Magnitude and
+            phase (degrees) of each parameter.  This step should be called after a LoadConfiguration step that contains a modulation distortion channel
+            and after that channel has been built and swept.
+            
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetFFTDataBuffer.DisplayChannelSelectionDialog">
+            <summary>
+            If this setting is checked, when this step is executed in the sequence, a dialog will appear with a list of current channels in the configurations,
+            from which the user can select a channel.  When this setting is checked, the <see cref="P:OpenTap.Plugins.DmxApiExample.GetFFTDataBuffer.ChannelId"/> setting is disabled.
+            NOTE: The selected channel must be of type Modulation Distortion. 
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetFFTDataBuffer.ChannelId">
+            <summary>
+            The channel number for the channel in the loaded configuration to be built in the VNA,  The channel number must be for a channel that exists in
+            the loaded configuration, otherwise an exception will be thrown during the step execution.
+            NOTE: The selected channel must be of type Modulation Distortion. 
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetFFTDataBuffer.InputPort">
+            <summary>
+            The VNA port number selected as the input to the DUT.  For a Digital-RF Transmitter measurement this is always
+            port 1.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetFFTDataBuffer.OutputPort">
+            <summary>
+            The VNA port number selected as the output from the DUT.  For a Digital-RF Receiver measurement this is always
+            port 2.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetFFTDataBuffer.Parameter">
+            <summary>
+            The modulation distortion parameter to get data from.  This will be selected from a defined list of available parameters
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetFFTDataBuffer.MODParameterNames">
+            <summary>
+            List of available modulation distortion parameters
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.GetTraceData">
+            <summary>
+            This test step queries the data from a specified channel and a specified parameter in the channel and publishes the result as table of X and Y values.
+            This step must be placed in the sequence after a LoadConfiguration and build channel step that includes the specified channel and parameter.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetTraceData.DisplayChannelSelectionDialog">
+            <summary>
+            If this setting is checked, when this step is executed in the sequence, a dialog will appear with a list of current channels in the configurations,
+            from which the user can select a channel.  When this setting is checked, the <see cref="P:OpenTap.Plugins.DmxApiExample.GetTraceData.ChannelId"/> setting is disabled.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetTraceData.ChannelId">
+            <summary>
+            The channel number for the channel in the loaded configuration to be built in the VNA,  The channel number must be for a channel that exists in
+            the loaded configuration, otherwise an exception will be thrown during the step execution.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetTraceData.DisplayParameterSelectionDialog">
+            <summary>
+            If this setting is checked, when this step is executed in the sequence, a dialog will appear with a list of available parameters in the selected channel.
+            When this setting is checked, the <see cref="P:OpenTap.Plugins.DmxApiExample.GetTraceData.Parameter"/> setting is disabled.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.GetTraceData.Parameter">
+            <summary>
+            This setting identifies the specific parameter to get data from.  It is automatically set when the Parameter Selection dialog is used, but can also be set
+            manually.  When setting the parameter manually, the entry must have the format [parameter name],[parameter format].
+            Example: S21,LogMag or MGain21,Delay
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.LoadConfigurationStep">
+            <summary>
+            This test step loads a DMX configuration file (*.dmx) into the sequence.  This step must be called after a Connection Step.
+            All subsequent build, sweep and data acquisition steps in the plugin will operate on the measurements included in the configuration
+            file.  If there are measurements in the configuration file that are not supported on the specific VNA used in the connection step,
+            those measurements will be removed from the loaded configuration.  The original configuration file is never altered.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.LoadConfigurationStep.DmxConfigFile">
+            <summary>
+            This setting holds the fully qualified file path to a DMX configuration file (*.dmx)
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.LogDisplayResultListener">
+            <summary>
+            A ResultListener class designed to display up to the first 100 entries of a published table
+            to the Tap Editor Log.
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.SaveChannelData">
+            <summary>
+            This test step will save all the data associated with a selected channel.  the selected channel must already be built on the connected
+            VNA and have valid data.  This step must be added after the <see cref="T:OpenTap.Plugins.DmxApiExample.SetupDataSaveOptions"/> step, which determines the file type,
+            default data directory path, and the data format.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.SaveChannelData.DisplayChannelSelectionDialog">
+            <summary>
+            If this setting is checked, when this step is executed in the sequence, a dialog will appear with a list of current channels in the configurations,
+            from which the user can select a channel.  When this setting is checked, the <see cref="P:OpenTap.Plugins.DmxApiExample.SaveChannelData.ChannelId"/> setting is disabled.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.SaveChannelData.ChannelId">
+            <summary>
+            The channel number for the channel in the loaded configuration to be built in the VNA,  The channel number must be for a channel that exists in
+            the loaded configuration, otherwise an exception will be thrown during the step execution.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.SaveChannelData.FileName">
+            <summary>
+            This setting holds the base file name (no directory or file extension needed) where the channel data will be saved.
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.SaveStateData">
+            <summary>
+            This step allows the user to save the data in the current VNA state.
+            This step must be added after the <see cref="T:OpenTap.Plugins.DmxApiExample.SetupDataSaveOptions"/> step, which determines the file type,
+            default data directory path, and the data format.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.SaveStateData.FileName">
+            <summary>
+            This setting holds the base file name (no directory or file extension needed) where the channel data will be saved.
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.SelectChannelDialog">
+            <summary>
+            This class can be used to show a channel selection dialog.  The calling method needs to 
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.SelectChannelSettingDialog">
+            <summary>
+            This class can be used to show a channel selection dialog.  The calling method needs to 
+            </summary>
+        </member>
+        <member name="T:OpenTap.Plugins.DmxApiExample.TapDmxApi">
+            <summary>
+            This static class is designed to hold an instance of a DmxApi object so that it can be
+            shared among all the steps in a TAP session.
+            The DmxInstance is initialized in the ConnectionStep.  In the ConnectionStep, a new instance
+            of the DmxApi object is created and a call is made to the DmxApi.ConnectToVna, using the
+            address and the timeout assigned to the VnaInstrument assigned to the ConnectionStep.
+            All subsequent steps in the session will use the same instance of the DmxApi and the connected
+            VNA until another ConnectionStep is executed.
+            </summary>
+        </member>
+        <member name="P:OpenTap.Plugins.DmxApiExample.TapDmxApi.DmxInstance">
+            <summary>
+            Global instance of a DmxApi object
+            </summary>
+        </member>
+        <member name="M:OpenTap.Plugins.DmxApiExample.VnaInstrument.Open">
+            <summary>
+            Open procedure for the instrument.
+            </summary>
+        </member>
+        <member name="M:OpenTap.Plugins.DmxApiExample.VnaInstrument.Close">
+            <summary>
+            Close procedure for the instrument.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = OpenTap.Plugins.DmxApiExample
+build_property.ProjectDir = C:\Users\daras\source\repos\DmxTapPlugin\OpenTap.Plugins.DmxApiExample\

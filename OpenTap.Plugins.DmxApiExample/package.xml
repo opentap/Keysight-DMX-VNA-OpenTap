@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+InfoLink: Specifies a location where additional information about the package can be found.
+Version: The version of the package. Must be in a semver 2.0 compatible format. This can be automatically updated from GIT.
+
+For Version the following macro is available (Only works if the project directory is under Git source control):
+$(GitVersion) - Gets the version from Git in the recommended format Major.Minor.Build-PreRelease+CommitHash.BranchName.
+-->
+<Package Name="VNA Test Automation with DMX" Version="1.0.0" OS="Windows" Architecture="AnyCPU" xmlns="http://opentap.io/schemas/package">
+  <Description>
+    Keysight DMX (S94601B) API TAP Plugin - This plugin makes it possible for Keysight Test Automation users to automate creating measurements setups, performing measurement sweeps and collecting data using the Device Measurement eXpert application remote programming API.
+    <Status>Release</Status>
+    <Organisation>Keysight Technologies, Inc</Organisation>
+    <Contacts>
+      <Contact Email="tap.support@keysight.com" Name="TAP Support"/>
+    </Contacts>
+    <Prerequisites>DMX (S94601B) version A.03.00.002.0011</Prerequisites>
+    <Hardware>VNA</Hardware>
+  </Description>
+  <Files>
+    <File Path="Packages/OpenTap.Plugins.DmxApiExample/OpenTap.Plugins.DmxApiExample.dll" SourcePath="OpenTap.Plugins.DmxApiExample.dll">
+      <SetAssemblyInfo Attributes="Version"/>
+      <IgnoreDependency>Keysight.Ccl.Licensing.Api</IgnoreDependency>
+      <IgnoreDependency>Keysight.Flo.Licensing.Api</IgnoreDependency>
+      <!-- These dependencies are handled by the DMX assembly resolver in the DMX TAP Plugin -->
+      <!-- 3rd party libraries redistributed with the DMX installation -->
+      <IgnoreDependency>NLog</IgnoreDependency>
+      <IgnoreDependency>Mono.Reflection</IgnoreDependency>
+      <IgnoreDependency>CsvHelper</IgnoreDependency>
+      <IgnoreDependency>Ivi.Visa</IgnoreDependency>
+      <IgnoreDependency>Ivi.Visa.Interop</IgnoreDependency>
+      <IgnoreDependency>System.Windows.Interactivity</IgnoreDependency>
+      <IgnoreDependency>Microsoft.Expression.Interactions</IgnoreDependency>
+      <!-- DMX libraries that are part of the DMX install -->
+      <IgnoreDependency>AgVNA_SCPInet</IgnoreDependency>
+      <IgnoreDependency>Keysight.WorkflowSolutions.WpfUIControls</IgnoreDependency>
+      <IgnoreDependency>Keysight.WorkflowSolutions.AppConfigHelper</IgnoreDependency>
+      <IgnoreDependency>Keysight.Dmx.VISAHelper</IgnoreDependency>
+      <IgnoreDependency>Keysight.Ccl.Wsl</IgnoreDependency>
+      <IgnoreDependency>LimitHelper.IPCLib</IgnoreDependency>
+      <IgnoreDependency>Keysight.Visa</IgnoreDependency>
+    </File>
+	  <!-- A copy of the licensing DLLs and where they are located -->
+	  <File Path="Dependencies/Keysight.Dmx.Service.Licensing.3.1.1.x/FloLicenseProvider.dll" SourcePath="FloLicenseProvider.dll" />
+      <File Path="Dependencies/Keysight.Dmx.Service.Licensing.3.1.1.x/Keysight.Ccl.Licensing.Api.dll" SourcePath="Keysight.Ccl.Licensing.Api.dll" />
+      <File Path="Dependencies/Keysight.Dmx.Service.Licensing.3.1.1.x/Keysight.Flo.Licensing.Api.dll" SourcePath="Keysight.Flo.Licensing.Api.dll" />
+  </Files>
+</Package>
