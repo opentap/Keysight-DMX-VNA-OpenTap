@@ -34,7 +34,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>C:\views\Anahita\TAPPlugins\OpenTap.Plugins.DmxApiExample\OpenTap.Plugins.DmxApiExample\OpenTap.Plugins.DmxApiExample.xml</DocumentationFile>
+    <DocumentationFile>..\..\OpenTap.Plugins.DmxApiExample.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,7 +56,7 @@
     <PackageReference Include="OpenTAP" Version="9.19.2" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(CI)'!='True'">
     <Reference Include="Keysight.Dmx.Service">
       <HintPath>$(DmxInstallDir)Keysight.Dmx.Service.dll</HintPath>
     </Reference>
@@ -65,8 +65,14 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="robocopy &quot;C:\Program Files\Keysight\DMX&quot; $(TargetDir) FloLicenseProvider.dll NLog.config Keysight.Ccl.Licensing.Api.dll&#xD;&#xA;if %25ERRORLEVEL%25 geq 8 exit 1&#xD;&#xA;exit 0" />
-  </Target>
+  <ItemGroup Condition="'$(CI)'=='True'">
+    <Reference Include="Keysight.Dmx.Service">
+      <HintPath>..\..\lib\Keysight.Dmx.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Keysight.WorkflowSolutions.Enumerations">
+      <HintPath>..\..\lib\Keysight.WorkflowSolutions.Enumerations.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 </Project>
