@@ -47,7 +47,7 @@
 
   <ItemGroup>
     <!-- Developer's System is needed to debug in 'Editor' -->
-    <AdditionalOpenTapPackage Include="Developer's System" />
+    <AdditionalOpenTapPackage Include="Developer's System" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
 
     <!--<AdditionalOpenTapPackage Include="Developer's System CE" />-->
   </ItemGroup>
