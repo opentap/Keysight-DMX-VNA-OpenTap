@@ -17,6 +17,9 @@ $(GitVersion) - Gets the version from Git in the recommended format Major.Minor.
     <Prerequisites>DMX (S94601B) version A.03.00.002.0011</Prerequisites>
     <Hardware>VNA</Hardware>
   </Description>
+  <Owner>Keysight Technologies, Inc.</Owner>
+  <SourceUrl>https://github.com/opentap/Keysight-DMX-VNA-OpenTap</SourceUrl>
+  <SourceLicense>Apache-2.0</SourceLicense>
   <Files>
     <File Path="Packages/OpenTap.Plugins.DmxApiExample/OpenTap.Plugins.DmxApiExample.dll" SourcePath="OpenTap.Plugins.DmxApiExample.dll">
       <SetAssemblyInfo Attributes="Version"/>
